@@ -72,7 +72,7 @@
           async function loadMoonPhase() {
             try {
               // URL do arquivo XML (ajuste conforme necessário)
-              const response = await fetch("fasesLua/phases.xml");
+              const response = await fetch("phases.xml");
               if (!response.ok) throw new Error("Erro ao carregar o arquivo XML.");
 
               const xmlText = await response.text();
@@ -313,6 +313,7 @@
 
   </body>
 </html>
+
 
 
 
