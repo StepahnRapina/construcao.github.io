@@ -1,21 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Olho de Rapina - Portal de ciência, filosofia e conhecimento. Notícias, artigos e conteúdos em linguagem simples e acessível.">
   <title>Olho de Rapina</title>
-  <link rel="icon" href="img/favicon.png" type="image/x-icon">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+
+  <!-- Fonte Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" 
-    integrity="sha512-HW6QWc2Z3bZl+5lzM31tE7RZtHV6gZ3mqpDoC7TgPCl3l8+7i2nUqH1c8f9q5HfU9eT0fhe1v2x5Bk8w9n+z0A==" 
-    crossorigin="anonymous" 
-    referrerpolicy="no-referrer" 
-  />
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Roboto', sans-serif; }
+    img { max-width: 100%; height: auto; } /* evita distorção no celular */
+  </style>
 </head>
+<body class="bg-gray-100 text-black">
+
+  <!-- Barra de Menu Superior (fixa) -->
+  <header class="bg-black text-white border-b border-gray-700 fixed top-0 left-0 w-full z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-3 text-sm font-medium">
+      <!-- Menu Esquerda -->
+      <nav class="flex space-x-6">
+        <a href="#" class="hover:text-yellow-400">Home</a>
+        <a href="#" class="hover:text-yellow-400">Astronomia</a>
+        <a href="#" class="hover:text-yellow-400">Filosofia</a>
+        <a href="#" class="hover:text-yellow-400">Sobre</a>
+      </nav>
+      <!-- Ícones Direita -->
+      <div class="flex space-x-4 text-lg">
+        <a href="#" aria-label="YouTube" class="hover:text-yellow-400"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Facebook" class="hover:text-yellow-400"><i class="fab fa-facebook"></i></a>
+        <a href="#" aria-label="Instagram" class="hover:text-yellow-400"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Twitter/X" class="hover:text-yellow-400"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </header>
   <body class="bg-gray-100 font-sans text-black">
 
     <!-- Barra de Menu -->
@@ -344,17 +370,3 @@
 
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
