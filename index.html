@@ -109,10 +109,11 @@
 
       // Exibir
       const div = document.getElementById("moon-phase");
-      div.innerHTML = `
-        <img src="${imagens[faseAtual]}" alt="${faseAtual}">
-        <h2>${faseAtual}</h2>
-      `;
+div.innerHTML = `
+  <img src="${imagens[faseAtual]}" alt="${faseAtual}" class="mx-auto block w-32 h-auto">
+  <h2 class="mt-2 font-bold text-lg">${faseAtual}</h2>
+`;
+
     }
 
     carregarFase();
@@ -270,5 +271,6 @@
 
   </body>
 </html>
+
 
 
