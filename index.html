@@ -57,109 +57,66 @@
         <!-- Fim do destaque -->
         <!-- Início do script da fase da lua -->
         <div class="md:w-1/4 text-center">
-          <!--
-          <h2 class="text-2xl text-black">Fase da Lua</h2>
-          <img src="https://www.timeanddate.com/scripts/moon.php" alt="Fase da Lua" class="mt-4 mx-auto" />
-          <p class="text-black text-sm">Nova</p>
-          --> 
-          <!-- <Fase class="text-2xl text-black">Fase da Lua</h2> -->
-        <div id="moon-phase">
-          <p>Carregando...</p>
-        </div>
+          <h1>Fase da Lua Hoje</h1>
+  <div id="moon-phase"></div>
 
-        <script>
-          // Função principal
-          async function loadMoonPhase() {
-            try {
-              // URL do arquivo XML (ajuste conforme necessário)
-              const response = await fetch("phases.xml");
-              if (!response.ok) throw new Error("Erro ao carregar o arquivo XML.");
+  <script>
+    async function carregarFase() {
+      const resposta = await fetch("phases.xml");
+      const texto = await resposta.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(texto, "application/xml");
 
-              const xmlText = await response.text();
-              const parser = new DOMParser();
-              const xml = parser.parseFromString(xmlText, "application/xml");
+      const fases = xml.getElementsByTagName("phase");
+      const hoje = new Date();
+      let faseAtual = null;
 
-              // Verifica por erros no XML
-              const parseError = xml.querySelector("parsererror");
-              if (parseError)
-                throw new Error("Erro no XML: " + parseError.textContent);
+      // Vamos montar uma lista ordenada com todas as datas
+      let lista = [];
+      for (let fase of fases) {
+        let nome = fase.getAttribute("name");
+        for (let data of fase.getElementsByTagName("date")) {
+          lista.push({
+            nome: nome,
+            data: new Date(data.textContent)
+          });
+        }
+      }
 
-              // Lê as fases da lua
-              const phases = Array.from(xml.querySelectorAll("phase"));
-              const phaseList = [];
+      // Ordenar todas as datas
+      lista.sort((a, b) => a.data - b.data);
 
-              phases.forEach((phase) => {
-                const phaseName = phase.getAttribute("name");
-                const dates = phase.querySelectorAll("date");
+      // Descobrir em qual intervalo o "hoje" se encontra
+      for (let i = 0; i < lista.length - 1; i++) {
+        if (hoje >= lista[i].data && hoje < lista[i + 1].data) {
+          faseAtual = lista[i].nome;
+          break;
+        }
+      }
 
-                dates.forEach((dateNode) => {
-                  const dateText = dateNode.textContent.trim();
+      // Se não achou, pega a última
+      if (!faseAtual) {
+        faseAtual = lista[lista.length - 1].nome;
+      }
 
-                  // Substitui o espaço entre data e hora por "T" para ISO 8601
-                  const formattedDate = dateText.replace(" ", "T");
-                  const date = new Date(formattedDate);
+      // Mapear nomes para imagens
+      const imagens = {
+        "LUA NOVA": "luaNova.png",
+        "LUA CRESCENTE": "luaCrescente.png",
+        "LUA CHEIA": "luaCheia.png",
+        "LUA MINGUANTE": "luaMinguante.png"
+      };
 
-                  // Verifica se a data é válida
-                  if (!isNaN(date)) {
-                    phaseList.push({ name: phaseName, date });
-                  } else {
-                    console.error("Data inválida encontrada:", dateText);
-                  }
-                });
-              });
+      // Exibir
+      const div = document.getElementById("moon-phase");
+      div.innerHTML = `
+        <img src="${imagens[faseAtual]}" alt="${faseAtual}">
+        <h2>${faseAtual}</h2>
+      `;
+    }
 
-              // Ordena a lista de fases por data
-              phaseList.sort((a, b) => a.date - b.date);
-
-              console.log("Lista de fases ordenada:", phaseList);
-
-              // Determina a fase atual
-              const now = new Date();
-              console.log("Data atual:", now);
-
-              let currentPhase = null;
-
-              for (let i = 0; i < phaseList.length - 1; i++) {
-                const current = phaseList[i];
-                const next = phaseList[i + 1];
-
-                if (now >= current.date && now < next.date) {
-                  currentPhase = current;
-                  break;
-                }
-              }
-
-              if (!currentPhase) {
-                // Caso especial: última fase do ciclo
-                const lastPhase = phaseList[phaseList.length - 1];
-                if (now >= lastPhase.date) {
-                  currentPhase = lastPhase;
-                }
-              }
-
-              // Atualiza a página
-              const phaseElement = document.getElementById("moon-phase");
-              if (currentPhase) {
-                const phaseImage =
-                  currentPhase.name.replace(" ", "").toLowerCase() + ".png";
-              phaseElement.innerHTML = `
-                  <p>${currentPhase.name}</p>
-                  <img src="fasesLua/${phaseImage}" alt="${currentPhase.name}" class="mx-auto block mt-2" />
-              `;
-              } else {
-                phaseElement.innerHTML = `<p>Não foi possível determinar a fase da Lua.</p>`;
-              }
-            } catch (error) {
-              console.error("Erro ao determinar a fase da Lua:", error);
-              document.getElementById(
-                "moon-phase"
-              ).innerHTML = `<p>Erro ao carregar as informações da Lua.</p>`;
-            }
-          }
-
-          // Executa a função ao carregar a página
-          loadMoonPhase();
-        </script>
+    carregarFase();
+  </script>
             <!-- Fim do script da fase da lua -->
         </div>
         <div class="md:w-1/4 text-center">
@@ -313,4 +270,5 @@
 
   </body>
 </html>
+
 
