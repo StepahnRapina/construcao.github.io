@@ -65,82 +65,90 @@
           <h2 class="text-2xl text-black">Fase da Lua Hoje</h2>
   <div id="moon-phase"></div>
 
-  <script>
-    async function carregarFase() {
-      const resposta = await fetch("luafases/phases.xml");
-      const texto = await resposta.text();
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(texto, "application/xml");
+<script>
+  async function carregarFase() {
+    const resposta = await fetch("luafases/phases.xml");
+    const texto = await resposta.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(texto, "application/xml");
 
-      const fases = xml.getElementsByTagName("phase");
-      const hoje = new Date();
-      let faseAtual = null;
-      let inicio = null;
-      let fim = null;
-      let proximaFase = null;
-      let proximaData = null;
+    const fases = xml.getElementsByTagName("phase");
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // zera hora pra evitar bug de comparação
+    let faseAtual = null;
+    let inicio = null;
+    let fim = null;
+    let proximaFase = null;
+    let proximaData = null;
 
-      // Lista com todas as datas das fases
-      let lista = [];
-      for (let fase of fases) {
-        let nome = fase.getAttribute("name");
-        for (let data of fase.getElementsByTagName("date")) {
-          lista.push({
-            nome: nome,
-            data: new Date(data.textContent)
-          });
-        }
-      }
-
-      // Ordenar todas as datas
-      lista.sort((a, b) => a.data - b.data);
-
-      // Procurar intervalo da fase atual
-      for (let i = 0; i < lista.length - 1; i++) {
-        if (hoje >= lista[i].data && hoje < lista[i + 1].data) {
-          faseAtual = lista[i].nome;
-          inicio = lista[i].data;
-          fim = new Date(lista[i + 1].data);
-          fim.setDate(fim.getDate() - 1); // último dia da fase atual
-          proximaFase = lista[i + 1].nome;
-          proximaData = lista[i + 1].data;
-          break;
-        }
-      }
-
-      // Se não encontrou (após a última data do XML), pega a última
-      if (!faseAtual) {
-        faseAtual = lista[lista.length - 1].nome;
-        inicio = lista[lista.length - 1].data;
-        fim = null;
-        proximaFase = null;
-        proximaData = null;
-      }
-
-      // Mapear nomes para imagens
-      const imagens = {
-        "LUA NOVA": "luafases/luaNova.png",
-        "LUA CRESCENTE": "luafases/luaCrescente.png",
-        "LUA CHEIA": "luafases/luaCheia.png",
-        "LUA MINGUANTE": "luafases/luaMinguante.png"
-      };
-
-      // Função para formatar datas
-      function formatarData(d) {
-        if (!d) return "";
-        return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
-      }
-
-      // Exibir
-      const div = document.getElementById("moon-phase");
-      div.innerHTML = `
-        <img src="${imagens[faseAtual]}" alt="${faseAtual}" class="mx-auto block w-32 h-auto">
-        <p class="text-black text-sm">De ${formatarData(inicio)} até ${fim ? formatarData(fim) : "..."}</p>
-      `;
+    // Função para parse de data sem UTC
+    function parseDataLocal(str) {
+      const [ano, mes, dia] = str.split("-").map(Number);
+      return new Date(ano, mes - 1, dia); // força ano/mês/dia local
     }
 
-    carregarFase();
-  </script>
+    // Lista com todas as datas das fases
+    let lista = [];
+    for (let fase of fases) {
+      let nome = fase.getAttribute("name");
+      for (let data of fase.getElementsByTagName("date")) {
+        lista.push({
+          nome: nome,
+          data: parseDataLocal(data.textContent)
+        });
+      }
+    }
+
+    // Ordenar todas as datas
+    lista.sort((a, b) => a.data - b.data);
+
+    // Procurar intervalo da fase atual
+    for (let i = 0; i < lista.length - 1; i++) {
+      if (hoje >= lista[i].data && hoje < lista[i + 1].data) {
+        faseAtual = lista[i].nome;
+        inicio = lista[i].data; // exatamente como no XML
+        fim = new Date(lista[i + 1].data);
+        fim.setDate(fim.getDate() - 1); // um dia antes da próxima fase
+        proximaFase = lista[i + 1].nome;
+        proximaData = lista[i + 1].data;
+        break;
+      }
+    }
+
+    // Se não encontrou (após a última data do XML), pega a última
+    if (!faseAtual) {
+      faseAtual = lista[lista.length - 1].nome;
+      inicio = lista[lista.length - 1].data;
+      fim = null;
+      proximaFase = null;
+      proximaData = null;
+    }
+
+    // Mapear nomes para imagens
+    const imagens = {
+      "LUA NOVA": "luafases/luaNova.png",
+      "LUA CRESCENTE": "luafases/luaCrescente.png",
+      "LUA CHEIA": "luafases/luaCheia.png",
+      "LUA MINGUANTE": "luafases/luaMinguante.png"
+    };
+
+    // Função para formatar datas
+    function formatarData(d) {
+      if (!d) return "";
+      return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+    }
+
+    // Exibir
+    const div = document.getElementById("moon-phase");
+    div.innerHTML = `
+      <img src="${imagens[faseAtual]}" alt="${faseAtual}" class="mx-auto block w-32 h-auto">
+      <p class="text-black text-sm">De ${formatarData(inicio)} até ${fim ? formatarData(fim) : "..."}</p>
+    `;
+  }
+
+  carregarFase();
+</script>
+
       </div>
       <!-- Fim do script da fase da lua -->
     </div>
@@ -290,6 +298,7 @@
 
   </body>
 </html>
+
 
 
 
