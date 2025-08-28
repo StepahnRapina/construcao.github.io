@@ -67,7 +67,7 @@
 
   <script>
     async function carregarFase() {
-      const resposta = await fetch("phases.xml");
+      const resposta = await fetch("luafases/phases.xml");
       const texto = await resposta.text();
       const parser = new DOMParser();
       const xml = parser.parseFromString(texto, "application/xml");
@@ -119,10 +119,10 @@
 
       // Mapear nomes para imagens
       const imagens = {
-        "LUA NOVA": "luaNova.png",
-        "LUA CRESCENTE": "luaCrescente.png",
-        "LUA CHEIA": "luaCheia.png",
-        "LUA MINGUANTE": "luaMinguante.png"
+        "LUA NOVA": "luafases/luaNova.png",
+        "LUA CRESCENTE": "luafases/luaCrescente.png",
+        "LUA CHEIA": "luafases/luaCheia.png",
+        "LUA MINGUANTE": "luafases/luaMinguante.png"
       };
 
       // Função para formatar datas
@@ -290,6 +290,7 @@
 
   </body>
 </html>
+
 
 
 
