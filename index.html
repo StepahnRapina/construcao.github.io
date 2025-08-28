@@ -130,7 +130,7 @@
       const div = document.getElementById("moon-phase");
       div.innerHTML = `
         <img src="${imagens[faseAtual]}" alt="${faseAtual}" class="mx-auto block w-32 h-auto">
-        <h2 class="text-2xl text-black">${faseAtual}</h2>
+        <h3 class="text-2xl text-black">${faseAtual}</h3>
        <p class="text-black text-sm">De ${formatarData(inicio)} até ${fim ? formatarData(fim) : "..."}</p>
       `;
     }
@@ -290,6 +290,7 @@
 
   </body>
 </html>
+
 
 
 
