@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Almanaque Alternativo</title>
+    <meta
+      name="description"
+      content="Blog sobre filosofia, astrologia e espiritualidade — template em HTML + Tailwind + JS"
+    />
+    <link rel="icon" href="favicon.png" type="image/png" />
+
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              cosmos: {
+                50: "#f7f5fb",
+                100: "#efeaf7",
+                200: "#ded0f0",
+                300: "#c4aee6",
+                400: "#9f78d0",
+                500: "#6f3fb0", // roxo cósmico
+                600: "#4f2a8a",
+                700: "#341a5a",
+                800: "#201033",
+                900: "#0b0616",
+              },
+              oceano: {
+                DEFAULT: "#0e2a4a", // azul profundo
+                light: "#144063",
+              },
+              aurum: {
+                DEFAULT: "#d4af37", // dourado
+                dark: "#b78f2b",
+              },
+              paper: "#f6f4fb",
+            },
+            boxShadow: {
+              soft: "0 10px 30px -12px rgba(2,6,23,0.45)",
+            },
+            fontFamily: {
+              heading: ["Cinzel Decorative", "serif"],
+              body: ["Poppins", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta
+      property="og:title"
+      content="Almanaque Alternativo — Cosmos Interior"
+    />
+    <meta
+      property="og:description"
+      content="Filosofia, astrologia e espiritualidade."
+    />
+    <meta
+      property="og:image"
+      content="https://picsum.photos/1200/630?random=22"
+    />
+
+    <style>
+      /* Small helpers */
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease both;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* Carousel: dots */
+      .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 9999px;
+        display: inline-block;
+        opacity: 0.5;
+        transition: opacity 0.2s, transform 0.18s;
+      }
+      .carousel-dot.active {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+
+      /* focus ring for keyboard nav */
+      :focus {
+        outline: 2px solid rgba(212, 175, 55, 0.16);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-paper text-slate-800 dark:bg-cosmos-900 dark:text-gray-100 font-body antialiased"
+  >
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only fixed top-4 left-4 z-50 bg-oceano p-3 rounded-lg text-white"
+      >Pular para o conteúdo</a
+    >
+
+    <!-- TOPBAR -->
+    <div class="hidden md:block bg-cosmos-800 text-white text-sm">
+      <div
+        class="container mx-auto px-4 py-2 flex justify-between items-center"
+      >
+        <div class="opacity-75">
+          Bem-vindo — filosofia, astrologia e espiritualidade
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            id="toggleDarkTop"
+            class="flex items-center gap-2 px-2 py-1 rounded hover:bg-white/10"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+            </svg>
+            <span>Tema</span>
+          </button>
+          <a href="#newsletter" class="hover:underline">Assinar newsletter</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-40 bg-white/80 dark:bg-cosmos-900/80 backdrop-blur border-b border-gray-200 dark:border-cosmos-800"
+    >
+      <div
+        class="container mx-auto px-4 py-4 flex items-center justify-between"
+      >
+        <a
+          href="#"
+          class="flex items-center gap-3"
+          aria-label="Almanaque Alternativo — inicio"
+        >
+          <img
+            src="Almanaque Alternativo"
+            alt="Almanaque Alternativo"
+            class="h-12 w-12 rounded-xl object-cover ring-2 ring-aurum"
+          />
+          <div>
+            <div class="text-lg font-semibold">Almanaque Alternativo</div>
+            <div class="text-xs uppercase text-gray-500 dark:text-gray-400">
+              Cosmos Interior
+            </div>
+          </div>
+        </a>
+
+        <!-- Nav desktop -->
+        <nav class="hidden lg:flex items-center gap-6">
+          <a href="#" class="hover:text-cosmos-200">Início</a>
+          <a href="#categorias" class="hover:text-cosmos-200">Categorias</a>
+          <a href="#sobre" class="hover:text-cosmos-200">Sobre</a>
+          <a href="#contato" class="hover:text-cosmos-200">Contato</a>
+
+          <button
+            id="openSearch"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-cosmos-700 hover:bg-gray-50 dark:hover:bg-cosmos-800"
+            aria-haspopup="dialog"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <circle
+                cx="11"
+                cy="11"
+                r="7"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+              <path
+                d="M20 20l-3.5-3.5"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+            </svg>
+            <span class="text-sm">Pesquisar</span>
+          </button>
+        </nav>
+
+        <div class="flex items-center gap-2 lg:hidden">
+          <button
+            id="toggleDark"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            aria-label="Alternar tema"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+            </svg>
+          </button>
+          <button
+            id="openMenu"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            aria-controls="mobileMenu"
+            aria-expanded="false"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M3 6h18M3 12h18M3 18h18"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div
+        id="mobileMenu"
+        class="lg:hidden hidden border-t border-gray-200 dark:border-cosmos-800"
+      >
+        <div class="container mx-auto px-4 py-3 flex flex-col gap-2">
+          <a
+            href="#"
+            class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            >Início</a
+          >
+          <a
+            href="#categorias"
+            class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            >Categorias</a
+          >
+          <a
+            href="#sobre"
+            class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            >Sobre</a
+          >
+          <a
+            href="#contato"
+            class="px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            >Contato</a
+          >
+          <button
+            id="openSearchMobile"
+            class="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-cosmos-800"
+          >
+            Pesquisar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO com CARROSSEL -->
+    <section class="relative">
+      <div
+        class="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-center py-12 lg:py-20"
+      >
+        <div>
+          <nav class="text-sm mb-3 text-slate-500 dark:text-slate-300">
+            <ol class="flex gap-2">
+              <li><a class="hover:underline" href="#">Início</a></li>
+              <li aria-hidden="true">/</li>
+              <li>Destaque</li>
+            </ol>
+          </nav>
+          <h1
+            class="text-3xl md:text-5xl font-heading text-aurum mb-4 leading-tight"
+          >
+            Explorando o Cosmos Interior — Filosofia, Astrologia e
+            Espiritualidade
+          </h1>
+          <p class="text-lg text-slate-600 dark:text-slate-300 max-w-prose">
+            Textos, reflexões e guias para quem busca sentido. Traga curiosidade
+            — aqui conversamos com símbolos, estrelas e ideias profundas.
+          </p>
+
+          <div class="mt-6 flex gap-3">
+            <a
+              href="#conteudo"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-aurum text-black font-semibold shadow-soft"
+              >Ler agora</a
+            >
+            <a
+              href="#newsletter"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-slate-300 dark:border-cosmos-700"
+              >Assinar</a
+            >
+          </div>
+
+          <div
+            class="mt-6 flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400"
+          >
+            <div class="flex items-center gap-2">
+              <span>📅</span><time datetime="2025-08-28">28 ago 2025</time>
+            </div>
+            <div class="flex items-center gap-2"><span>⏱</span> 7 min</div>
+            <div class="flex items-center gap-2">
+              <span>🏷️</span>
+              <a href="#categorias" class="underline">Astrologia</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carousel -->
+        <div
+          class="relative aspect-[16/10] rounded-2xl overflow-hidden shadow-soft ring-1 ring-black/10"
+        >
+          <div id="carousel" class="h-full w-full relative">
+            <!-- slides -->
+            <div
+              class="slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100"
+            >
+              <img
+                src="https://picsum.photos/960/600?random=21"
+                alt="Capa 1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div
+              class="slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0"
+            >
+              <img
+                src="https://picsum.photos/960/600?random=22"
+                alt="Capa 2"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div
+              class="slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0"
+            >
+              <img
+                src="https://picsum.photos/960/600?random=23"
+                alt="Capa 3"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <!-- controls -->
+            <button
+              id="prev"
+              class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/45"
+              aria-label="Anterior"
+            >
+              ‹
+            </button>
+            <button
+              id="next"
+              class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 rounded-full hover:bg-black/45"
+              aria-label="Próximo"
+            >
+              ›
+            </button>
+
+            <!-- dots -->
+            <div
+              id="dots"
+              class="absolute left-1/2 -translate-x-1/2 bottom-4 flex gap-2"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destaques rápidos -->
+    <section class="container mx-auto px-4 -mt-10 relative z-10">
+      <div class="grid md:grid-cols-3 gap-6">
+        <article
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800 fade-in"
+        >
+          <img
+            src="https://picsum.photos/640/360?random=31"
+            alt=""
+            class="w-full h-40 object-cover rounded-lg mb-4"
+          />
+          <h3 class="text-xl font-semibold">Astros & Simbolismo</h3>
+          <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+            Interpretações que conectam arquétipos e mapas astrais para reflexão
+            prática.
+          </p>
+          <div class="mt-4 flex justify-between items-center">
+            <a href="#" class="text-aurum font-semibold">Ler artigo</a
+            ><span class="text-sm text-slate-500">6 min</span>
+          </div>
+        </article>
+
+        <article
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800 fade-in"
+        >
+          <img
+            src="https://picsum.photos/640/360?random=32"
+            alt=""
+            class="w-full h-40 object-cover rounded-lg mb-4"
+          />
+          <h3 class="text-xl font-semibold">Filosofia Prática</h3>
+          <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+            Ensaios curtos para cultivar atenção, ética e sentido.
+          </p>
+          <div class="mt-4 flex justify-between items-center">
+            <a href="#" class="text-aurum font-semibold">Ler artigo</a
+            ><span class="text-sm text-slate-500">8 min</span>
+          </div>
+        </article>
+
+        <article
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800 fade-in"
+        >
+          <img
+            src="https://picsum.photos/640/360?random=33"
+            alt=""
+            class="w-full h-40 object-cover rounded-lg mb-4"
+          />
+          <h3 class="text-xl font-semibold">Práticas Espirituais</h3>
+          <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+            Rituais modernos, meditações e exercícios simbólicos.
+          </p>
+          <div class="mt-4 flex justify-between items-center">
+            <a href="#" class="text-aurum font-semibold">Ler artigo</a
+            ><span class="text-sm text-slate-500">5 min</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MAIN / LISTA DE POSTS E SIDEBAR -->
+    <main
+      id="conteudo"
+      class="container mx-auto px-4 py-10 grid lg:grid-cols-12 gap-8"
+    >
+      <!-- posts -->
+      <section class="lg:col-span-8 space-y-6">
+        <!-- toolbar -->
+        <div
+          class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3"
+        >
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <label for="inputSearch" class="sr-only">Pesquisar</label>
+            <div
+              class="flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900 w-full sm:w-80"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                />
+                <path
+                  d="M20 20l-3.5-3.5"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                />
+              </svg>
+              <input
+                id="inputSearch"
+                class="w-full bg-transparent outline-none"
+                type="search"
+                placeholder="Buscar artigos..."
+              />
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label
+              for="selectOrdenar"
+              class="text-sm text-slate-600 dark:text-slate-300"
+              >Ordenar:</label
+            >
+            <select
+              id="selectOrdenar"
+              class="px-3 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900"
+            >
+              <option value="recentes">Mais recentes</option>
+              <option value="antigos">Mais antigos</option>
+              <option value="popular">Mais populares</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="posts" class="grid sm:grid-cols-2 gap-6">
+          <!-- exemplo de cards (substitua pelos seus posts) -->
+          <article
+            class="post-card bg-white dark:bg-cosmos-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+            data-title="Mapa Astral Introdução"
+            data-popular="12"
+            data-date="2025-08-26"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=41"
+              alt=""
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-aurum font-semibold"
+                >Astrologia</a
+              >
+              <h3 class="mt-2 text-xl font-semibold">
+                Mapa Astral: Introdução e símbolos essenciais
+              </h3>
+              <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+                Guia introdutório para interpretar elementos principais do seu
+                mapa natal.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-slate-500"
+              >
+                <span>26 ago 2025</span><span>12k views</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="post-card bg-white dark:bg-cosmos-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+            data-title="Ética Estoica"
+            data-popular="8"
+            data-date="2025-07-18"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=42"
+              alt=""
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-aurum font-semibold"
+                >Filosofia</a
+              >
+              <h3 class="mt-2 text-xl font-semibold">
+                Ética Estoica para vida prática
+              </h3>
+              <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+                Aplicando princípios estoicos ao dia a dia para maior
+                resiliência.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-slate-500"
+              >
+                <span>18 jul 2025</span><span>8k views</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="post-card bg-white dark:bg-cosmos-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+            data-title="Méditação Guiada"
+            data-popular="6"
+            data-date="2025-06-12"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=43"
+              alt=""
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-aurum font-semibold"
+                >Espiritualidade</a
+              >
+              <h3 class="mt-2 text-xl font-semibold">
+                Meditação guiada para alinhamento
+              </h3>
+              <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+                Prática curta para centrar a mente e aprofundar a percepção
+                simbólica.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-slate-500"
+              >
+                <span>12 jun 2025</span><span>6k views</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="post-card bg-white dark:bg-cosmos-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+            data-title="Ritos da Lua"
+            data-popular="9"
+            data-date="2025-05-05"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=44"
+              alt=""
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-aurum font-semibold"
+                >Rituais</a
+              >
+              <h3 class="mt-2 text-xl font-semibold">
+                Ritos simples para a lua nova
+              </h3>
+              <p class="mt-2 text-slate-600 dark:text-slate-300 line-clamp-3">
+                Ritos simbólicos para iniciar ciclos com intenção clara.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-slate-500"
+              >
+                <span>05 mai 2025</span><span>9k views</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- paginação simples -->
+        <div class="flex items-center justify-between pt-2">
+          <button
+            class="px-4 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900 disabled:opacity-50"
+            disabled
+          >
+            ← Anterior
+          </button>
+          <nav aria-label="Paginação" class="flex items-center gap-2">
+            <a
+              href="#"
+              class="px-3 py-2 rounded-lg bg-aurum text-black font-semibold"
+              >1</a
+            >
+            <a
+              href="#"
+              class="px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-cosmos-800"
+              >2</a
+            >
+            <a
+              href="#"
+              class="px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-cosmos-800"
+              >3</a
+            >
+          </nav>
+          <button
+            class="px-4 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900"
+          >
+            Próximo →
+          </button>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="lg:col-span-4 space-y-6">
+        <!-- Sobre -->
+        <section
+          id="sobre"
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+        >
+          <h2 class="text-lg font-semibold">Sobre</h2>
+          <p class="mt-2 text-slate-600 dark:text-slate-300">
+            Reflexões sobre símbolos, mapas astrais e pensamento crítico. Um
+            espaço para explorar significados.
+          </p>
+        </section>
+
+        <!-- carousel menor (sidebar) -->
+        <section
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+        >
+          <h3 class="font-semibold">Galeria</h3>
+          <div
+            id="miniCarousel"
+            class="mt-3 relative rounded-lg overflow-hidden aspect-[4/3]"
+          >
+            <img
+              src="https://picsum.photos/480/360?random=51"
+              alt=""
+              class="w-full h-full object-cover"
+            />
+            <button
+              id="miniPrev"
+              class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 p-1 rounded-full text-white"
+            >
+              ‹
+            </button>
+            <button
+              id="miniNext"
+              class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 p-1 rounded-full text-white"
+            >
+              ›
+            </button>
+          </div>
+        </section>
+
+        <!-- categories -->
+        <section
+          id="categorias"
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+        >
+          <h3 class="font-semibold">Categorias</h3>
+          <ul class="mt-3 grid grid-cols-2 gap-2 text-sm">
+            <li>
+              <a
+                class="block px-3 py-2 rounded-lg bg-slate-100 dark:bg-cosmos-800 hover:bg-slate-200"
+                href="#"
+                >Astrologia</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-3 py-2 rounded-lg bg-slate-100 dark:bg-cosmos-800 hover:bg-slate-200"
+                href="#"
+                >Filosofia</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-3 py-2 rounded-lg bg-slate-100 dark:bg-cosmos-800 hover:bg-slate-200"
+                href="#"
+                >Rituais</a
+              >
+            </li>
+            <li>
+              <a
+                class="block px-3 py-2 rounded-lg bg-slate-100 dark:bg-cosmos-800 hover:bg-slate-200"
+                href="#"
+                >Práticas</a
+              >
+            </li>
+          </ul>
+        </section>
+
+        <!-- newsletter -->
+        <section
+          id="newsletter"
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+        >
+          <h3 class="font-semibold">Newsletter</h3>
+          <form
+            class="mt-3 flex flex-col gap-3"
+            onsubmit="event.preventDefault(); alert('Obrigado por assinar (simulado)!')"
+          >
+            <label for="newsEmail" class="text-sm">Seu e-mail</label>
+            <input
+              id="newsEmail"
+              type="email"
+              placeholder="seu@email.com"
+              required
+              class="px-4 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900"
+            />
+            <button
+              class="px-4 py-2 rounded-xl bg-aurum text-black font-semibold"
+            >
+              Assinar
+            </button>
+          </form>
+        </section>
+
+        <!-- populares -->
+        <section
+          class="bg-white dark:bg-cosmos-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-cosmos-800"
+        >
+          <h3 class="font-semibold">Populares</h3>
+          <ul class="mt-3 space-y-3">
+            <li class="flex gap-3">
+              <img
+                src="https://picsum.photos/80/80?random=61"
+                alt=""
+                class="h-16 w-16 rounded-lg object-cover"
+              />
+              <div>
+                <a href="#" class="font-semibold hover:underline"
+                  >Mapa Astral: Introdução</a
+                >
+                <div class="text-sm text-slate-500">12k views</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <img
+                src="https://picsum.photos/80/80?random=62"
+                alt=""
+                class="h-16 w-16 rounded-lg object-cover"
+              />
+              <div>
+                <a href="#" class="font-semibold hover:underline"
+                  >Ritos da Lua</a
+                >
+                <div class="text-sm text-slate-500">9k views</div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+
+    <!-- modal de busca -->
+    <div id="dialogSearch" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/40" data-close></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        class="relative mx-auto mt-24 w-full max-w-2xl bg-white dark:bg-cosmos-900 rounded-2xl shadow-soft p-6 ring-1 ring-gray-200 dark:ring-cosmos-800"
+      >
+        <div class="flex items-center gap-3">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+            <path
+              d="M20 20l-3.5-3.5"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+          </svg>
+          <h3 class="text-xl font-semibold">Buscar artigos</h3>
+        </div>
+        <input
+          id="modalSearch"
+          type="search"
+          placeholder="Digite palavras do título..."
+          class="mt-4 w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900"
+        />
+        <div class="mt-4 text-sm text-slate-500">
+          Dica: pesquise por palavras-chave do título.
+        </div>
+      </div>
+    </div>
+
+    <!-- modal comentarios -->
+    <div id="dialogComentarios" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/50" data-close></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        class="relative mx-auto mt-20 w-full max-w-2xl bg-white dark:bg-cosmos-900 rounded-2xl shadow-soft p-6 ring-1 ring-gray-200 dark:ring-cosmos-800"
+      >
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold">Comentários</h3>
+          <button
+            data-close
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-cosmos-800"
+            aria-label="Fechar"
+          >
+            ✕
+          </button>
+        </div>
+        <div class="mt-4 space-y-4 max-h-[50vh] overflow-auto">
+          <article class="p-3 rounded-xl bg-slate-50 dark:bg-cosmos-800">
+            <h4 class="font-semibold">Ana</h4>
+            <p class="text-slate-700 dark:text-slate-300">
+              Ótimo conteúdo — obrigado!
+            </p>
+          </article>
+          <article class="p-3 rounded-xl bg-slate-50 dark:bg-cosmos-800">
+            <h4 class="font-semibold">Carlos</h4>
+            <p class="text-slate-700 dark:text-slate-300">
+              Muito útil a seção de rituais.
+            </p>
+          </article>
+        </div>
+        <form
+          class="mt-4 flex flex-col gap-3"
+          onsubmit="event.preventDefault(); alert('Comentário enviado (simulado)')"
+        >
+          <label for="comentario" class="text-sm">Escreva um comentário</label>
+          <textarea
+            id="comentario"
+            rows="3"
+            class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700 bg-white dark:bg-cosmos-900"
+          ></textarea>
+          <div class="flex justify-end gap-3">
+            <button
+              class="px-4 py-2 rounded-xl border border-gray-300 dark:border-cosmos-700"
+            >
+              Cancelar
+            </button>
+            <button
+              class="px-4 py-2 rounded-xl bg-aurum text-black font-semibold"
+            >
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer
+      class="border-t border-gray-200 dark:border-cosmos-800 bg-white dark:bg-cosmos-900"
+    >
+      <div class="container mx-auto px-4 py-10 grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-3">
+            <img
+              src="logo.png"
+              alt="logo"
+              class="h-10 w-10 rounded-xl ring-2 ring-aurum"
+            />
+            <div class="font-semibold">Almanaque Alternativo</div>
+          </div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Reflexões & conteúdos sobre símbolos, mapas e práticas espirituais.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold">Links</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#" class="hover:underline">Início</a></li>
+            <li><a href="#sobre" class="hover:underline">Sobre</a></li>
+            <li><a href="#contato" class="hover:underline">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Categorias</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#" class="hover:underline">Astrologia</a></li>
+            <li><a href="#" class="hover:underline">Filosofia</a></li>
+            <li><a href="#" class="hover:underline">Rituais</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Contato</h4>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            email@exemplo.com<br />Rua Exemplo, 123 — Brasil
+          </p>
+        </div>
+      </div>
+      <div
+        class="border-t border-gray-200 dark:border-cosmos-800 py-4 text-center text-sm text-slate-500"
+      >
+        © <span id="ano"></span> Almanaque Alternativo — Todos os direitos
+        reservados.
+      </div>
+    </footer>
+
+    <!-- SCRIPT: interações e carousel -->
+    <script>
+      // -- Tema (persistência)
+      const root = document.documentElement;
+      const stored = localStorage.getItem("theme");
+      if (
+        stored === "dark" ||
+        (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        root.classList.add("dark");
+      }
+      function toggleDark() {
+        root.classList.toggle("dark");
+        localStorage.setItem(
+          "theme",
+          root.classList.contains("dark") ? "dark" : "light"
+        );
+      }
+      document
+        .getElementById("toggleDark")
+        ?.addEventListener("click", toggleDark);
+      document
+        .getElementById("toggleDarkTop")
+        ?.addEventListener("click", toggleDark);
+
+      // -- Mobile menu
+      const openMenuBtn = document.getElementById("openMenu");
+      const mobileMenu = document.getElementById("mobileMenu");
+      openMenuBtn?.addEventListener("click", () => {
+        const isOpen = !mobileMenu.classList.contains("hidden");
+        mobileMenu.classList.toggle("hidden");
+        openMenuBtn.setAttribute("aria-expanded", String(!isOpen));
+      });
+
+      // -- Ano footer
+      document.getElementById("ano").textContent = new Date().getFullYear();
+
+      // -- Busca / dialogs
+      function openDialog(id) {
+        document.getElementById(id)?.classList.remove("hidden");
+      }
+      function closeDialog(ev) {
+        const t = ev.target;
+        if (t.hasAttribute("data-close")) {
+          t.closest(".fixed")?.classList.add("hidden");
+        }
+      }
+      document
+        .getElementById("openSearch")
+        ?.addEventListener("click", () => openDialog("dialogSearch"));
+      document
+        .getElementById("openSearchMobile")
+        ?.addEventListener("click", () => openDialog("dialogSearch"));
+      document
+        .getElementById("dialogSearch")
+        ?.addEventListener("click", closeDialog);
+      document
+        .getElementById("dialogComentarios")
+        ?.addEventListener("click", closeDialog);
+
+      // close with ESC
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document
+            .querySelectorAll(".fixed.inset-0")
+            .forEach((m) => m.classList.add("hidden"));
+        }
+      });
+
+      // -- Posts: filtro e ordenação
+      const searchInput = document.getElementById("inputSearch");
+      const selectOrdenar = document.getElementById("selectOrdenar");
+      const postsGrid = document.getElementById("posts");
+      const cards = Array.from(postsGrid.querySelectorAll(".post-card"));
+
+      function applyFilters() {
+        const q = (searchInput?.value || "").toLowerCase();
+        cards.forEach((c) => {
+          const title = (c.dataset.title || "").toLowerCase();
+          c.style.display = title.includes(q) ? "" : "none";
+        });
+        applySort();
+      }
+      function applySort() {
+        const mode = selectOrdenar?.value || "recentes";
+        const visible = cards.filter((c) => c.style.display !== "none");
+        visible.sort((a, b) => {
+          if (mode === "popular")
+            return Number(b.dataset.popular) - Number(a.dataset.popular);
+          if (mode === "antigos")
+            return new Date(a.dataset.date) - new Date(b.dataset.date);
+          return new Date(b.dataset.date) - new Date(a.dataset.date);
+        });
+        visible.forEach((el) => postsGrid.appendChild(el));
+      }
+      searchInput?.addEventListener("input", applyFilters);
+      selectOrdenar?.addEventListener("change", applySort);
+
+      // -- Abrir comentários ao clicar no card (exemplo)
+      cards.forEach((card) =>
+        card.addEventListener("click", () => openDialog("dialogComentarios"))
+      );
+
+      // ========== CAROUSEL (Hero) ==========
+      (function () {
+        const carousel = document.getElementById("carousel");
+        if (!carousel) return;
+        const slides = Array.from(carousel.querySelectorAll(".slide"));
+        const dotsWrap = document.getElementById("dots");
+        let idx = 0;
+        let timer = null;
+        const delay = 5000;
+
+        // create dots
+        slides.forEach((s, i) => {
+          const d = document.createElement("button");
+          d.className = "carousel-dot bg-white/80";
+          d.setAttribute("aria-label", "Ir para slide " + (i + 1));
+          d.addEventListener("click", () => goTo(i));
+          dotsWrap.appendChild(d);
+        });
+        const dots = Array.from(dotsWrap.children);
+
+        function show(n) {
+          slides.forEach((s, i) => {
+            s.style.opacity = i === n ? "1" : "0";
+            s.style.pointerEvents = i === n ? "auto" : "none";
+          });
+          dots.forEach((d, i) => d.classList.toggle("active", i === n));
+        }
+        function goTo(n) {
+          idx = (n + slides.length) % slides.length;
+          show(idx);
+          resetTimer();
+        }
+        function next() {
+          goTo(idx + 1);
+        }
+        function prev() {
+          goTo(idx - 1);
+        }
+
+        document.getElementById("next")?.addEventListener("click", next);
+        document.getElementById("prev")?.addEventListener("click", prev);
+
+        // autoplay with pause on hover/focus
+        function startTimer() {
+          timer = setInterval(next, delay);
+        }
+        function stopTimer() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+        carousel.addEventListener("mouseenter", stopTimer);
+        carousel.addEventListener("mouseleave", startTimer);
+        carousel.addEventListener("focusin", stopTimer);
+        carousel.addEventListener("focusout", startTimer);
+
+        function resetTimer() {
+          stopTimer();
+          startTimer();
+        }
+
+        // init
+        show(idx);
+        startTimer();
+      })();
+
+      // -- Mini carousel (sidebar)
+      (function () {
+        const wrap = document.getElementById("miniCarousel");
+        if (!wrap) return;
+        const imgs = [
+          "https://picsum.photos/480/360?random=51",
+          "https://picsum.photos/480/360?random=52",
+          "https://picsum.photos/480/360?random=53",
+        ];
+        let i = 0;
+        const imgEl =
+          wrap.querySelector("img") ||
+          (function () {
+            const im = document.createElement("img");
+            wrap.appendChild(im);
+            return im;
+          })();
+        imgEl.className = "w-full h-full object-cover";
+        function show() {
+          imgEl.src = imgs[i % imgs.length];
+        }
+        show();
+        document.getElementById("miniNext")?.addEventListener("click", () => {
+          i++;
+          show();
+        });
+        document.getElementById("miniPrev")?.addEventListener("click", () => {
+          i--;
+          show();
+        });
+      })();
+    </script>
+  </body>
+</html>
