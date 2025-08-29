@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Modelo de blog elegante e moderno, estilo WordPress, feito em HTML com Tailwind CSS e JavaScript embutido."
+    />
+    <meta name="theme-color" content="#111827" />
+    <title>Template de Blog — Modern WP Style</title>
+    <link rel="icon" href="favicon.png" type="image/png" />
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Configuração Tailwind (cores e container)
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          container: { center: true, padding: "1rem" },
+          extend: {
+            colors: {
+              brand: {
+                DEFAULT: "#facc15", // amarelo (combina com Olho de Rapina)
+                dark: "#eab308",
+              },
+            },
+            boxShadow: {
+              soft: "0 10px 25px -10px rgba(0,0,0,0.25)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Template de Blog — Modern WP Style" />
+    <meta
+      property="og:description"
+      content="Modelo de blog elegante e moderno, estilo WordPress, com dark mode."
+    />
+    <meta
+      property="og:image"
+      content="https://picsum.photos/1200/630?random=11"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- JSON-LD básico (Blog) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Template de Blog — Modern WP Style",
+        "description": "Modelo de blog elegante e moderno, estilo WordPress, com dark mode.",
+        "url": "https://example.com/",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Olho de Rapina",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://picsum.photos/200/200?random=99"
+          }
+        }
+      }
+    </script>
+
+    <style>
+      /* Fallbacks utilitários e animações leves */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .fade-in {
+        animation: fadeIn 0.6s ease both;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 text-gray-800 antialiased dark:bg-gray-950 dark:text-gray-100"
+  >
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-3 focus:py-2 focus:bg-black focus:text-white focus:rounded-lg"
+      >Pular para o conteúdo</a
+    >
+
+    <!-- Topbar -->
+    <div class="hidden md:block bg-gray-900 text-gray-100 text-sm">
+      <div class="container flex items-center justify-between py-2">
+        <p class="opacity-80">Bem-vindo ao Template de Blog</p>
+        <div class="flex items-center gap-4">
+          <a href="#newsletter" class="hover:underline">Assine a newsletter</a>
+          <button
+            id="toggleDarkTop"
+            class="flex items-center gap-2 px-2 py-1 rounded hover:bg-white/10"
+            aria-label="Alternar tema"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              class="pointer-events-none"
+            >
+              <path
+                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <span>Modo</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-gray-200 dark:bg-gray-900/80 dark:border-gray-800"
+    >
+      <div class="container flex items-center justify-between py-3">
+        <a
+          href="#"
+          class="flex items-center gap-3 group"
+          aria-label="Página inicial"
+        >
+          <span
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-black font-black shadow-soft"
+            >OR</span
+          >
+          <div>
+            <div class="text-xl font-extrabold tracking-tight">
+              Olho de Rapina
+            </div>
+            <div
+              class="text-xs uppercase tracking-widest text-gray-500 group-hover:text-gray-800 dark:text-gray-400"
+            >
+              Blog Magazine Template
+            </div>
+          </div>
+        </a>
+
+        <!-- Nav -->
+        <nav
+          class="hidden lg:flex items-center gap-6"
+          aria-label="Menu principal"
+        >
+          <a class="hover:text-gray-900 dark:hover:text-white" href="#"
+            >Início</a
+          >
+          <a
+            class="hover:text-gray-900 dark:hover:text-white"
+            href="#categorias"
+            >Categorias</a
+          >
+          <a class="hover:text-gray-900 dark:hover:text-white" href="#sobre"
+            >Sobre</a
+          >
+          <a class="hover:text-gray-900 dark:hover:text-white" href="#contato"
+            >Contato</a
+          >
+          <div class="relative">
+            <button
+              id="openSearch"
+              class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-300/70 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+              aria-haspopup="dialog"
+              aria-controls="dialogSearch"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path
+                  d="M20 20l-3.5-3.5"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+              <span>Pesquisar</span>
+            </button>
+          </div>
+        </nav>
+
+        <div class="flex items-center gap-2 lg:hidden">
+          <button
+            id="toggleDark"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            aria-label="Alternar tema"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            id="openMenu"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            aria-controls="mobileMenu"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 6h18M3 12h18M3 18h18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobileMenu"
+        class="lg:hidden hidden border-t border-gray-200 dark:border-gray-800"
+      >
+        <div class="container py-3 flex flex-col gap-3">
+          <a
+            class="px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#"
+            >Início</a
+          >
+          <a
+            class="px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#categorias"
+            >Categorias</a
+          >
+          <a
+            class="px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#sobre"
+            >Sobre</a
+          >
+          <a
+            class="px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+            href="#contato"
+            >Contato</a
+          >
+          <button
+            id="openSearchMobile"
+            class="flex items-center gap-2 px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <circle
+                cx="11"
+                cy="11"
+                r="7"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M20 20l-3.5-3.5"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <span>Pesquisar</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Destaque -->
+    <section
+      class="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white"
+    >
+      <div
+        class="container grid lg:grid-cols-2 gap-8 py-10 lg:py-16 items-center"
+      >
+        <div class="order-2 lg:order-1">
+          <nav class="text-sm mb-3 text-white/70" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2">
+              <li><a class="hover:underline" href="#">Início</a></li>
+              <li aria-hidden="true">/</li>
+              <li>Em destaque</li>
+            </ol>
+          </nav>
+          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
+            Construindo um Blog Moderno com HTML, Tailwind e JS
+          </h1>
+          <p class="mt-4 text-white/80 text-lg md:text-xl max-w-prose">
+            Um template robusto, responsivo e acessível — pronto para feiras,
+            apresentações e demonstrações profissionais.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a
+              href="#conteudo"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand text-black font-semibold shadow-soft hover:brightness-95"
+            >
+              Ler agora
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 12h14M13 5l7 7-7 7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+            <a
+              href="#newsletter"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/10 font-medium hover:bg-white/20"
+              >Assinar</a
+            >
+          </div>
+          <div class="mt-6 flex items-center gap-4 text-white/70 text-sm">
+            <div class="flex items-center gap-2">
+              <span class="i-cal" aria-hidden="true">📅</span>
+              <time datetime="2025-08-28">28 ago 2025</time>
+            </div>
+            <div class="flex items-center gap-2">
+              <span aria-hidden="true">⏱️</span> 6 min
+            </div>
+            <div class="flex items-center gap-2">
+              <span aria-hidden="true">🏷️</span>
+              <a href="#categorias" class="underline">Web Design</a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="order-1 lg:order-2 relative aspect-[16/10] overflow-hidden rounded-2xl shadow-soft ring-1 ring-white/10"
+        >
+          <img
+            src="https://picsum.photos/960/600?random=1"
+            alt="Imagem de capa do post em destaque"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Destaques rápidos -->
+    <section class="container -mt-8 relative z-10">
+      <div class="grid md:grid-cols-3 gap-6">
+        <article
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80 fade-in"
+        >
+          <img
+            src="https://picsum.photos/640/360?random=2"
+            alt="Thumb"
+            class="rounded-lg mb-4 w-full h-40 object-cover"
+          />
+          <h3 class="text-xl font-bold leading-snug line-clamp-2">
+            Por que Tailwind acelera o desenvolvimento front-end
+          </h3>
+          <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+            Classes utilitárias, consistência e produtividade para criar
+            interfaces modernas com rapidez e controle total.
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-brand hover:underline font-semibold"
+              >Ler artigo</a
+            >
+            <span class="text-sm text-gray-500">5 min</span>
+          </div>
+        </article>
+        <article
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80 fade-in"
+        >
+          <img
+            src="https://picsum.photos/640/360?random=3"
+            alt="Thumb"
+            class="rounded-lg mb-4 w-full h-40 object-cover"
+          />
+          <h3 class="text-xl font-bold leading-snug line-clamp-2">
+            SEO técnico essencial: performance, acessibilidade e dados
+            estruturados
+          </h3>
+          <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+            Melhores práticas para fazer seu blog brilhar nas buscas, com foco
+            em velocidade e UX.
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-brand hover:underline font-semibold"
+              >Ler artigo</a
+            >
+            <span class="text-sm text-gray-500">7 min</span>
+          </div>
+        </article>
+        <article
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80 fade-in"
+        >
+          <img
+            src="https://picsum.photos/640/360?random=4"
+            alt="Thumb"
+            class="rounded-lg mb-4 w-full h-40 object-cover"
+          />
+          <h3 class="text-xl font-bold leading-snug line-clamp-2">
+            Design de componentes: cartões, listas, tabelas e formulários
+          </h3>
+          <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+            Um kit limpo e consistente para vocês replicar em múltiplas páginas
+            como num tema do WordPress.
+          </p>
+          <div class="mt-4 flex items-center justify-between">
+            <a href="#" class="text-brand hover:underline font-semibold"
+              >Ler artigo</a
+            >
+            <span class="text-sm text-gray-500">8 min</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main
+      id="conteudo"
+      class="container py-10 lg:py-14 grid lg:grid-cols-12 gap-8"
+    >
+      <!-- Lista de Posts -->
+      <section class="lg:col-span-8 space-y-6" aria-label="Lista de posts">
+        <!-- Barra de ferramentas -->
+        <div
+          class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3"
+        >
+          <div class="flex items-center gap-2">
+            <label for="inputSearch" class="sr-only">Pesquisar</label>
+            <div
+              class="flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 w-full sm:w-80"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path
+                  d="M20 20l-3.5-3.5"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+              <input
+                id="inputSearch"
+                type="search"
+                placeholder="Buscar artigos..."
+                class="w-full bg-transparent outline-none"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <label
+              for="selectOrdenar"
+              class="text-sm text-gray-600 dark:text-gray-300"
+              >Ordenar:</label
+            >
+            <select
+              id="selectOrdenar"
+              class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+            >
+              <option value="recentes">Mais recentes</option>
+              <option value="antigos">Mais antigos</option>
+              <option value="popular">Mais populares</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="posts" class="grid sm:grid-cols-2 gap-6">
+          <!-- Cards de post (exemplos) -->
+          <article
+            class="post-card bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+            data-title="Guia de Tailwind"
+            data-popular="9"
+            data-date="2025-08-26"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=5"
+              alt="Capa do post"
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-brand font-semibold"
+                >Front-end</a
+              >
+              <h3 class="mt-2 text-xl font-bold leading-snug">
+                Guia definitivo do Tailwind CSS para 2025
+              </h3>
+              <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+                Produtividade máxima com utilitários, dicas de organização e
+                padrões de design reutilizáveis.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-gray-500"
+              >
+                <span>26 ago 2025</span>
+                <span>9k views</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="post-card bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+            data-title="Acessibilidade Web"
+            data-popular="7"
+            data-date="2025-08-18"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=6"
+              alt="Capa do post"
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-brand font-semibold"
+                >Acessibilidade</a
+              >
+              <h3 class="mt-2 text-xl font-bold leading-snug">
+                Checklist prático de Acessibilidade para Blogs
+              </h3>
+              <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+                Teclas de atalho, contraste, navegação por teclado e rotas para
+                validar seu conteúdo.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-gray-500"
+              >
+                <span>18 ago 2025</span>
+                <span>7k views</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="post-card bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+            data-title="Performance Web"
+            data-popular="12"
+            data-date="2025-08-12"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=7"
+              alt="Capa do post"
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-brand font-semibold"
+                >Performance</a
+              >
+              <h3 class="mt-2 text-xl font-bold leading-snug">
+                Como otimizar performance: imagens, fontes e cache
+              </h3>
+              <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+                Boas práticas para reduzir o peso da página e melhorar métricas
+                Core Web Vitals.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-gray-500"
+              >
+                <span>12 ago 2025</span>
+                <span>12k views</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="post-card bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+            data-title="Design de Componentes"
+            data-popular="6"
+            data-date="2025-08-05"
+          >
+            <img
+              src="https://picsum.photos/640/360?random=8"
+              alt="Capa do post"
+              class="w-full h-44 object-cover"
+            />
+            <div class="p-5">
+              <a
+                href="#"
+                class="text-xs uppercase tracking-widest text-brand font-semibold"
+                >UI</a
+              >
+              <h3 class="mt-2 text-xl font-bold leading-snug">
+                Padrões de UI que funcionam em 2025
+              </h3>
+              <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-3">
+                Cartões, modais e microinterações que elevam a experiência do
+                usuário.
+              </p>
+              <div
+                class="mt-4 flex items-center justify-between text-sm text-gray-500"
+              >
+                <span>5 ago 2025</span>
+                <span>6k views</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Paginação -->
+        <div class="flex items-center justify-between pt-2">
+          <button
+            class="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 disabled:opacity-50"
+            disabled
+          >
+            ← Anterior
+          </button>
+          <nav aria-label="Paginação" class="flex items-center gap-2">
+            <a
+              href="#"
+              class="px-3 py-2 rounded-lg bg-brand text-black font-semibold"
+              >1</a
+            >
+            <a
+              href="#"
+              class="px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800"
+              >2</a
+            >
+            <a
+              href="#"
+              class="px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800"
+              >3</a
+            >
+          </nav>
+          <button
+            class="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+          >
+            Próximo →
+          </button>
+        </div>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="lg:col-span-4 space-y-6" aria-label="Barra lateral">
+        <!-- Sobre -->
+        <section
+          id="sobre"
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+        >
+          <h2 class="text-lg font-bold">Sobre o Blog</h2>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">
+            Um espaço para conteúdo técnico e criativo em tecnologia, design e
+            produção de conteúdo. Inspirado em temas do WordPress, com foco em
+            performance.
+          </p>
+        </section>
+
+        <!-- Categorias -->
+        <section
+          id="categorias"
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+        >
+          <h2 class="text-lg font-bold">Categorias</h2>
+          <ul class="mt-3 grid grid-cols-2 gap-2 text-sm">
+            <li>
+              <a
+                href="#"
+                class="block px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200"
+                >Front-end</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="block px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200"
+                >UI/UX</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="block px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200"
+                >Acessibilidade</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="block px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200"
+                >SEO</a
+              >
+            </li>
+          </ul>
+        </section>
+
+        <!-- Tags -->
+        <section
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+        >
+          <h2 class="text-lg font-bold">Tags</h2>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a
+              class="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+              href="#"
+              >tailwind</a
+            >
+            <a
+              class="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+              href="#"
+              >design</a
+            >
+            <a
+              class="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+              href="#"
+              >acessibilidade</a
+            >
+            <a
+              class="px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+              href="#"
+              >seo</a
+            >
+          </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section
+          id="newsletter"
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+        >
+          <h2 class="text-lg font-bold">Assine a Newsletter</h2>
+          <form
+            class="mt-3 flex flex-col gap-3"
+            onsubmit="event.preventDefault(); alert('Obrigado por assinar!');"
+          >
+            <label class="text-sm" for="newsEmail">Seu e-mail</label>
+            <input
+              id="newsEmail"
+              type="email"
+              required
+              placeholder="voce@email.com"
+              class="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+            />
+            <button
+              class="px-4 py-2 rounded-xl bg-brand text-black font-semibold hover:brightness-95"
+            >
+              Assinar
+            </button>
+          </form>
+        </section>
+
+        <!-- Populares -->
+        <section
+          class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-soft ring-1 ring-gray-200/60 dark:ring-gray-800/80"
+        >
+          <h2 class="text-lg font-bold">Populares</h2>
+          <ul class="mt-3 space-y-3">
+            <li class="flex gap-3">
+              <img
+                src="https://picsum.photos/80/80?random=12"
+                alt="thumb"
+                class="h-16 w-16 rounded-lg object-cover"
+              />
+              <div>
+                <a class="font-semibold hover:underline" href="#"
+                  >Como criar um tema rápido</a
+                >
+                <div class="text-sm text-gray-500">12k views</div>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <img
+                src="https://picsum.photos/80/80?random=13"
+                alt="thumb"
+                class="h-16 w-16 rounded-lg object-cover"
+              />
+              <div>
+                <a class="font-semibold hover:underline" href="#"
+                  >Design system com Tailwind</a
+                >
+                <div class="text-sm text-gray-500">9k views</div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+
+    <!-- Seção de comentários (modal) -->
+    <div id="dialogComentarios" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/50" data-close></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloComentarios"
+        class="relative mx-auto mt-20 w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-soft ring-1 ring-gray-200 dark:ring-gray-800 p-6"
+      >
+        <div class="flex items-center justify-between">
+          <h3 id="tituloComentarios" class="text-xl font-bold">Comentários</h3>
+          <button
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            data-close
+            aria-label="Fechar"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M6 6l12 12M6 18L18 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="mt-4 space-y-4 max-h-[50vh] overflow-auto pr-2">
+          <article class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+            <h4 class="font-semibold">Maria</h4>
+            <p class="text-gray-700 dark:text-gray-300">
+              Excelente template! O dark mode ficou muito bom.
+            </p>
+          </article>
+          <article class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800">
+            <h4 class="font-semibold">João</h4>
+            <p class="text-gray-700 dark:text-gray-300">
+              Gostei do filtro de busca e da organização da sidebar.
+            </p>
+          </article>
+        </div>
+        <form
+          class="mt-4 flex flex-col gap-3"
+          onsubmit="event.preventDefault(); alert('Comentário enviado! (simulado)');"
+        >
+          <label for="comentario" class="text-sm">Escreva um comentário</label>
+          <textarea
+            id="comentario"
+            rows="3"
+            class="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+          ></textarea>
+          <div class="flex items-center justify-end gap-3">
+            <button
+              class="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700"
+            >
+              Cancelar
+            </button>
+            <button
+              class="px-4 py-2 rounded-xl bg-brand text-black font-semibold"
+            >
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+    >
+      <div class="container py-10 grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-3">
+            <span
+              class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-black font-black"
+              >OR</span
+            >
+            <span class="font-extrabold">Olho de Rapina</span>
+          </div>
+          <p class="mt-3 text-sm text-gray-600 dark:text-gray-300">
+            Tema demonstrativo em HTML + Tailwind + JS. Inspirado em templates
+            WordPress.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-bold">Links</h3>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:underline" href="#">Início</a></li>
+            <li><a class="hover:underline" href="#sobre">Sobre</a></li>
+            <li><a class="hover:underline" href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold">Categorias</h3>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:underline" href="#">Front-end</a></li>
+            <li><a class="hover:underline" href="#">UI/UX</a></li>
+            <li><a class="hover:underline" href="#">SEO</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold">Contato</h3>
+          <p class="mt-3 text-sm text-gray-600 dark:text-gray-300">
+            email@exemplo.com<br />Rua Exemplo, 123 — Brasil
+          </p>
+        </div>
+      </div>
+      <div
+        class="border-t border-gray-200 dark:border-gray-800 py-4 text-center text-sm text-gray-500"
+      >
+        © <span id="ano"></span> Olho de Rapina — Todos os direitos reservados.
+      </div>
+    </footer>
+
+    <!-- Dialog de busca -->
+    <div id="dialogSearch" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/50" data-close></div>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloBusca"
+        class="relative mx-auto mt-24 w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-soft ring-1 ring-gray-200 dark:ring-gray-800 p-6"
+      >
+        <div class="flex items-center gap-3">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <h3 id="tituloBusca" class="text-xl font-bold">Buscar artigos</h3>
+        </div>
+        <input
+          type="search"
+          id="modalSearch"
+          placeholder="Digite para filtrar..."
+          class="mt-4 w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+        />
+        <div class="mt-4 text-sm text-gray-500">
+          Dica: use palavras do título para refinar.
+        </div>
+      </div>
+    </div>
+
+    <!-- JS: interações -->
+    <script>
+      // Dark mode com persistência
+      const root = document.documentElement;
+      const storedTheme = localStorage.getItem("theme");
+      if (
+        storedTheme === "dark" ||
+        (!storedTheme &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        root.classList.add("dark");
+      }
+      const toggleDark = () => {
+        root.classList.toggle("dark");
+        localStorage.setItem(
+          "theme",
+          root.classList.contains("dark") ? "dark" : "light"
+        );
+      };
+      document
+        .getElementById("toggleDark")
+        ?.addEventListener("click", toggleDark);
+      document
+        .getElementById("toggleDarkTop")
+        ?.addEventListener("click", toggleDark);
+
+      // Menu mobile
+      const openMenuBtn = document.getElementById("openMenu");
+      const mobileMenu = document.getElementById("mobileMenu");
+      openMenuBtn?.addEventListener("click", () => {
+        const isOpen = !mobileMenu.classList.contains("hidden");
+        mobileMenu.classList.toggle("hidden");
+        openMenuBtn.setAttribute("aria-expanded", String(!isOpen));
+      });
+
+      // Ano no footer
+      document.getElementById("ano").textContent = new Date().getFullYear();
+
+      // Filtro e ordenação de posts
+      const searchInput = document.getElementById("inputSearch");
+      const selectOrdenar = document.getElementById("selectOrdenar");
+      const postsGrid = document.getElementById("posts");
+      const cards = Array.from(postsGrid.querySelectorAll(".post-card"));
+
+      function applyFilters() {
+        const q = (searchInput?.value || "").toLowerCase();
+        cards.forEach((card) => {
+          const title = (card.dataset.title || "").toLowerCase();
+          card.style.display = title.includes(q) ? "" : "none";
+        });
+        applySort();
+      }
+
+      function applySort() {
+        const mode = selectOrdenar?.value || "recentes";
+        const visible = cards.filter((c) => c.style.display !== "none");
+        visible.sort((a, b) => {
+          if (mode === "popular")
+            return Number(b.dataset.popular) - Number(a.dataset.popular);
+          if (mode === "antigos")
+            return new Date(a.dataset.date) - new Date(b.dataset.date);
+          return new Date(b.dataset.date) - new Date(a.dataset.date); // recentes
+        });
+        visible.forEach((el) => postsGrid.appendChild(el));
+      }
+
+      searchInput?.addEventListener("input", applyFilters);
+      selectOrdenar?.addEventListener("change", applySort);
+
+      // Dialogs (busca e comentários)
+      function openDialog(id) {
+        document.getElementById(id)?.classList.remove("hidden");
+      }
+      function closeDialog(ev) {
+        const t = ev.target;
+        if (t.hasAttribute("data-close"))
+          t.parentElement.classList.add("hidden");
+        if (t.closest("[data-close]"))
+          t.closest(".fixed").classList.add("hidden");
+      }
+      document
+        .getElementById("openSearch")
+        ?.addEventListener("click", () => openDialog("dialogSearch"));
+      document
+        .getElementById("openSearchMobile")
+        ?.addEventListener("click", () => openDialog("dialogSearch"));
+      document
+        .getElementById("dialogSearch")
+        ?.addEventListener("click", closeDialog);
+
+      // Exemplo: abrir comentários ao clicar em qualquer card
+      cards.forEach((card) =>
+        card.addEventListener("click", () => openDialog("dialogComentarios"))
+      );
+      document
+        .getElementById("dialogComentarios")
+        ?.addEventListener("click", closeDialog);
+
+      // Acessibilidade: fechar com ESC
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document
+            .querySelectorAll(".fixed.inset-0")
+            .forEach((modal) => modal.classList.add("hidden"));
+        }
+      });
+    </script>
+  </body>
+</html>
